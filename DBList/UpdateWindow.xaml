@@ -1,0 +1,61 @@
+﻿<Window x:Class="DBList.UpdateWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DBList"
+        mc:Ignorable="d"
+        Title="Поиск поля"
+        Height="300"
+        Width="300">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="69*" />
+            <ColumnDefinition Width="223*" />
+        </Grid.ColumnDefinitions>
+        <Label x:Name="label"
+               Content="Новое значение для поля"
+               HorizontalAlignment="Left"
+               Margin="0,55,0,0"
+               VerticalAlignment="Top"
+               Width="292"
+               Grid.ColumnSpan="2"
+               HorizontalContentAlignment="Center" />
+        <TextBox x:Name="fieldValue"
+                 HorizontalAlignment="Left"
+                 Height="23"
+                 Margin="66,160,0,0"
+                 TextWrapping="NoWrap"
+                 Text="Значение"
+                 VerticalAlignment="Top"
+                 Width="171"
+                 Grid.ColumnSpan="2" />
+        <Button x:Name="saveBtn"
+                Content="Изменить"
+                Background="Green"
+                HorizontalAlignment="Left"
+                Margin="66,208,0,0"
+                VerticalAlignment="Top"
+                Width="76"
+                Click="saveBtn_Click"
+                Grid.ColumnSpan="2"
+                Height="44" />
+        <Label x:Name="fieldName"
+               Content="Имя"
+               HorizontalAlignment="Left"
+               Margin="66,98,0,0"
+               VerticalAlignment="Top"
+               Grid.ColumnSpan="2"
+               FontStyle="Italic" />
+        <Button x:Name="rmvBtn"
+                Content="Удалить"
+                Background="Red"
+                HorizontalAlignment="Left"
+                Margin="92,208,0,0"
+                VerticalAlignment="Top"
+                Width="76"
+                Click="rmvBtn_Click"
+                Height="44"
+                Grid.Column="1" />
+    </Grid>
+</Window>

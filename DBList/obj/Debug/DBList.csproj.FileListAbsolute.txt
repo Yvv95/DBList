@@ -1,0 +1,16 @@
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\bin\Debug\DBList.exe.config
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\bin\Debug\DBList.exe
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\bin\Debug\DBList.pdb
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\MainWindow.g.cs
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\App.g.cs
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList_MarkupCompile.cache
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList_MarkupCompile.lref
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\MainWindow.baml
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList.g.resources
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList.Properties.Resources.resources
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList.csproj.GenerateResource.Cache
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList.exe
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList.pdb
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\UpdateWindow.g.cs
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\UpdateWindow.baml
+c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList.csprojResolveAssemblyReference.cache
