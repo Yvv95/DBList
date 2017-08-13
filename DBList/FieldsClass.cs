@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,10 +11,7 @@ namespace DBList
     {
 
         public static List<Field> fields = new List<Field>();
-
-
-
-
+        
         /// <summary>
         /// Добавить поле
         /// </summary>
@@ -122,14 +120,13 @@ namespace DBList
 
             foreach (var item in fields)
             {
-                if (item.selected == true)
+                if (item.selected)
                 {
                     pairs.Add(item.name, item.value);
                 }
             }
             return pairs;
         }
-
 
         public class Field
         {

@@ -6,25 +6,13 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 
 namespace DBList
 {
-    //TODO
-    //Защита от дурака
-    //DataGrid с текущими условиями
-    //Row affected при update
-    //отлов ошибок
-    //
+    //Data Source=.\SQLEXPRESS; Integrated Security=True
 
     /// <summary>
     /// Interaction logic for MainWindow.xaml
@@ -33,25 +21,19 @@ namespace DBList
     {
         private static string _tableCatalog = "",
             _tableSchema = "",//dbo
-            _tableName = "",
-            _columnName = "",
-            _dataType = "";
+            _tableName = ""
+;
+
         private static DataTable allColumnsSchemaTable = new DataTable();
         private static byte[] byteData;
         public MainWindow()
         {
             InitializeComponent();
-            tablesLabel.Visibility = Visibility.Hidden;
-            tableBox.Visibility = Visibility.Hidden;
-            fieldLabel.Visibility = Visibility.Hidden;
-            fieldBox.Visibility = Visibility.Hidden;
-            labelBinary.Visibility = Visibility.Hidden;
-            binList.Visibility = Visibility.Hidden;
-            dbListBox.Visibility = Visibility.Hidden;
-            labelList.Visibility = Visibility.Hidden;
+            condGrid.ItemsSource = FieldsClass.fields;
+            HideInfo();
         }
 
-        private void button_Click(object sender, RoutedEventArgs e)
+        public void HideInfo()
         {
             tablesLabel.Visibility = Visibility.Hidden;
             tableBox.Visibility = Visibility.Hidden;
@@ -62,8 +44,10 @@ namespace DBList
             dbListBox.Visibility = Visibility.Hidden;
             labelList.Visibility = Visibility.Hidden;
             textError.Visibility = Visibility.Hidden;
-            textField.Text = "";
-
+        }
+        private void button_Click(object sender, RoutedEventArgs e)
+        {
+            HideInfo();
             using (SqlConnection conn = new SqlConnection(connectionBox.Text))
             {
                 try
@@ -106,57 +90,6 @@ namespace DBList
             }
         }
 
-
-        //отобразить все поля binary в БД
-        /*  private static Dictionary<string, string> ShowColumns(DataTable columnsTable, string tableCatalog)
-         {
-             Dictionary<string, string> colsTypes = new Dictionary<string, string>();
-             var selectedRows = from info in columnsTable.AsEnumerable()
-                                select new
-                                {
-                                    TableCatalog = info["TABLE_CATALOG"],//ExchRates 
-                                    TableSchema = info["TABLE_SCHEMA"],//dbo
-                                    TableName = info["TABLE_NAME"],
-                                    ColumnName = info["COLUMN_NAME"],
-                                    DataType = info["DATA_TYPE"]
-                                };
-             foreach (var row in selectedRows)
-             {
-                 if ((row.TableCatalog.ToString() == tableCatalog) && (row.ColumnName != null) && (row.DataType != null) && (!colsTypes.ContainsKey(row.ColumnName.ToString())) && ((row.DataType.ToString() == "varbinary") || (row.DataType.ToString() == "binary")))
-                 {
-                     colsTypes.Add(row.ColumnName.ToString(), row.DataType.ToString());
-                     _tableCatalog = row.TableCatalog.ToString();
-                     _tableSchema = row.TableSchema.ToString();
-                     _tableName = row.TableName.ToString();
-                 }
-             }
-             return colsTypes;
-         }
-
-        private static Dictionary<string, string> ShowColumns(DataTable columnsTable, string tableCatalog, string tableSchema, string tableName)
-         {
-             Dictionary<string, string> colsTypes = new Dictionary<string, string>();
-             var selectedRows = from info in columnsTable.AsEnumerable()
-                                select new
-                                {
-                                    TableCatalog = info["TABLE_CATALOG"],//ExchRates 
-                                    TableSchema = info["TABLE_SCHEMA"],//dbo
-                                    TableName = info["TABLE_NAME"],
-                                    ColumnName = info["COLUMN_NAME"],
-                                    DataType = info["DATA_TYPE"]
-                                };
-             foreach (var row in selectedRows)
-             {
-                 if ((row.TableSchema.ToString() == tableSchema) && (row.TableName.ToString() == tableName) && (row.TableCatalog.ToString() == tableCatalog) && (row.ColumnName != null) && (row.DataType != null) && (!colsTypes.ContainsKey(row.ColumnName.ToString())) && ((row.DataType.ToString() != "varbinary") || (row.DataType.ToString() != "binary")))
-                 {
-                     colsTypes.Add(row.ColumnName.ToString(), row.DataType.ToString());
-                     _tableCatalog = row.TableCatalog.ToString();
-                     _tableSchema = row.TableSchema.ToString();
-                     _tableName = row.TableName.ToString();
-                 }
-             }
-             return colsTypes;
-         }*/
         private static List<string> ShowCols(DataTable table, string field)
         {
             List<string> dbs = new List<string>();
@@ -197,9 +130,9 @@ namespace DBList
             {
                 foreach (DataColumn col in table.Columns)
                 {
-                    if (col.DataType.Equals(typeof(DateTime)))
+                    if (col.DataType == typeof(DateTime))
                         tmp.Append("{0,-" + length + ":d}" + row[col]);
-                    else if (col.DataType.Equals(typeof(Decimal)))
+                    else if (col.DataType == typeof(Decimal))
                         tmp.Append("{0,-" + length + ":C}" + row[col]);
                     else
                         tmp.Append("{0,-" + length + "}" + row[col]);
@@ -227,80 +160,13 @@ namespace DBList
 
         private void loadBtn_Click(object sender, RoutedEventArgs e)
         {
-            //if (binList.SelectedItem != null)
-            //{
-            //    StringBuilder query = new StringBuilder();
-            //    query.Append("SELECT " + binList.SelectedItem.ToString() + " FROM [" + _tableCatalog + "]." + "[" + _tableSchema + "].[" + _tableName + "] WHERE ");
-            //    Dictionary<string, string> qrs = new Dictionary<string, string>();
-            //    qrs = FieldsClass.GetSelected();
-            //    int counter = 0;
-            //    foreach (var item in qrs)
-            //    {
-            //        counter++;
-            //        query.Append(item.Key + " = '" + item.Value + "'");
-            //        if (counter != qrs.Count)
-            //            query.Append(" AND ");
-            //    }
-            //    MessageBox.Show(query.ToString());
-            //    string strData = "";
-            //    using (SqlConnection sqlConn = new SqlConnection(connectionBox.Text + "Initial Catalog =" + _tableCatalog))
-            //    {
-            //        try
-            //        {
-            //            var sqlCmd = new SqlCommand(query.ToString(), sqlConn);
-            //            sqlConn.Open();
-            //            var reader = sqlCmd.ExecuteReader();
-            //            bool success = false;
-            //            StringBuilder table = new StringBuilder();
-            //            if (reader.HasRows)
-            //            {
-            //                int fieldCount = reader.FieldCount;
-            //                table.Append("|   ");
-            //                table.AppendLine("|");
-            //                table.AppendLine("-----------------");
-            //                string result = "";
-            //                while (reader.Read())
-            //                {
-            //                    table.Append("|   ");
-            //                    for (int i = 0; i < fieldCount; i++)
-            //                        if (reader.GetValue(i) != null)
-            //                        {
-            //                            if (reader.GetValue(i) is byte[])
-            //                            {
-            //                                byteData = (byte[])reader.GetValue(i);
-            //                                result = Convert.ToBase64String(byteData, 0, byteData.Length);
-            //                                success = true;
-            //                            }
-            //                            if (success)
-            //                                table.Append(result);
-            //                            else
-            //                                table.Append(reader.GetValue(i) + "   ");
-            //                        }
-            //                        else
-            //                            table.Append("null   ");
-            //                    table.AppendLine("|");
-            //                }
-            //            }
-            //            MessageBox.Show(table.ToString());
-            //        }
-            //        catch (Exception error)
-            //        {
-            //            MessageBox.Show(error.ToString());
-            //        }
-            //        finally
-            //        {
-            //            sqlConn.Close();
-            //        }
-            //    }
-            //}
-            //else
-            //    MessageBox.Show("Не выбрано бинарное поле");
         }
 
         private void saveBtn_Click(object sender, RoutedEventArgs e)
         {
             if (binList.SelectedItem != null)
             {
+                byteData = null;
                 StringBuilder query = new StringBuilder();
                 query.Append("SELECT " + binList.SelectedItem.ToString() + " FROM [" + _tableCatalog + "]." + "[" + _tableSchema + "].[" + _tableName + "] WHERE ");
                 Dictionary<string, string> qrs = new Dictionary<string, string>();
@@ -314,15 +180,14 @@ namespace DBList
                         query.Append(" AND ");
                 }
                 MessageBox.Show(query.ToString());
-                string strData = "";
                 using (SqlConnection sqlConn = new SqlConnection(connectionBox.Text + "Initial Catalog =" + _tableCatalog))
                 {
                     try
                     {
                         var sqlCmd = new SqlCommand(query.ToString(), sqlConn);
                         sqlConn.Open();
+                        sqlCmd.StatementCompleted += (s, e2) => MessageBox.Show(e2.RecordCount + " строк выбрано");
                         var reader = sqlCmd.ExecuteReader();
-                        bool success = false;
                         StringBuilder table = new StringBuilder();
                         if (reader.HasRows)
                         {
@@ -330,27 +195,21 @@ namespace DBList
                             table.Append("|   ");
                             table.AppendLine("|");
                             table.AppendLine("-----------------");
-                            string result = "";
                             while (reader.Read())
                             {
                                 table.Append("|   ");
                                 for (int i = 0; i < fieldCount; i++)
+                                {
                                     if (reader.GetValue(i) != null)
                                     {
                                         if (reader.GetValue(i) is byte[])
-                                        {
-                                            byteData = (byte[])reader.GetValue(i);
-                                            result = Convert.ToBase64String(byteData, 0, byteData.Length);
-                                            success = true;
-                                        }
-                                        if (success)
-                                            table.Append(result);
-                                        else
-                                            table.Append(reader.GetValue(i) + "   ");
+                                            byteData = (byte[]) reader.GetValue(i);
+                                        table.Append(reader.GetValue(i) + "   ");
                                     }
                                     else
                                         table.Append("null   ");
-                                table.AppendLine("|");
+                                    table.AppendLine("|");
+                                }
                             }
                         }
                         MessageBox.Show(table.ToString());
@@ -364,13 +223,17 @@ namespace DBList
                         sqlConn.Close();
                     }
                 }
-            
-            SaveFileDialog saveFileDialog1 = new SaveFileDialog();
-            saveFileDialog1.Filter = "";
+
+                SaveFileDialog saveFileDialog1 = new SaveFileDialog();
+                saveFileDialog1.Filter = "";
+                saveFileDialog1.Title = "Сохранение файла на компьютер";
+                if (byteData == null)
+                    MessageBox.Show("Выбранная запись не содержит бинарных данных");
+                else
             if (saveFileDialog1.ShowDialog() == true)
-                File.WriteAllBytes(saveFileDialog1.FileName, byteData);
-            else
-                MessageBox.Show("Не удалось сохранить");
+                    File.WriteAllBytes(saveFileDialog1.FileName, byteData);
+                else
+                    MessageBox.Show("Не удалось сохранить");
             }
             else
                 MessageBox.Show("Не выбрано бинарное поле");
@@ -378,55 +241,62 @@ namespace DBList
 
         private void uplBtn_Click(object sender, RoutedEventArgs e)
         {
-            //открыть окно с чтением файла с ПК
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.FileName = ""; //Default file name
-            dlg.DefaultExt = ""; //Default file extension
-            dlg.Filter = ""; //Filter files by extension
-            StringBuilder query = new StringBuilder();
-            byte[] array = null;
-            //Show open file dialog box
-            bool? result = dlg.ShowDialog();
-            if (result == true)
+            if (binList.SelectedItem != null)
             {
-                string filename = dlg.FileName;
-                using (FileStream fstream = File.OpenRead(filename))
+                Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+                dlg.Title = "Изменить файл в базе данных";
+                dlg.Filter = "";
+                StringBuilder query = new StringBuilder();
+                byte[] array = null;
+                //Show open file dialog box
+                bool? result = dlg.ShowDialog();
+                if (result == true)
                 {
-                    // преобразуем строку в байты
-                    array = new byte[fstream.Length];
-                    //считываем данные
-                    fstream.Read(array, 0, array.Length);
-
-                    string str = Convert.ToBase64String(array, 0, array.Length);//'" + str + "'
-                    query.Append("UPDATE [" + _tableCatalog + "]." + "[" + _tableSchema + "].[" + _tableName + "] SET [" + binList.SelectedItem.ToString() + "] = @binaryValue  WHERE ");
-                    Dictionary<string, string> qrs = new Dictionary<string, string>();
-                    qrs = FieldsClass.GetSelected();
-                    int counter = 0;
-                    foreach (var item in qrs)
+                    string filename = dlg.FileName;
+                    using (FileStream fstream = File.OpenRead(filename))
                     {
-                        counter++;
-                        query.Append(item.Key + " = '" + item.Value + "'");
-                        if (counter != qrs.Count)
-                            query.Append(" AND ");
+                        // преобразуем строку в байты
+                        array = new byte[fstream.Length];
+                        //считываем данные
+                        fstream.Read(array, 0, array.Length);
+
+                        query.Append("UPDATE [" + _tableCatalog + "]." + "[" + _tableSchema + "].[" + _tableName +
+                                     "] SET [" + binList.SelectedItem.ToString() + "] = @binaryValue  WHERE ");
+                        Dictionary<string, string> qrs = new Dictionary<string, string>();
+                        qrs = FieldsClass.GetSelected();
+                        int counter = 0;
+                        foreach (var item in qrs)
+                        {
+                            counter++;
+                            query.Append(item.Key + " = '" + item.Value + "'");
+                            if (counter != qrs.Count)
+                                query.Append(" AND ");
+                        }
+                        MessageBox.Show(query.ToString());
                     }
-                    MessageBox.Show(query.ToString());
+                }
+                using (SqlConnection conn = new SqlConnection(connectionBox.Text + "Initial Catalog =" + _tableCatalog))
+                {
+                    try
+                    {
+                        conn.Open();
+                        SqlCommand cmd = new SqlCommand(query.ToString(), conn);
+                        cmd.StatementCompleted += (s, e2) => MessageBox.Show(e2.RecordCount + " строк изменено");
+                        cmd.Parameters.Add("@binaryValue", SqlDbType.VarBinary, array.Count()).Value = array;
+                        cmd.ExecuteNonQuery();
+                    }
+                    catch (Exception error)
+                    {
+                        MessageBox.Show(error.ToString());
+                    }
+                    finally
+                    {
+                        conn.Close();
+                    }
                 }
             }
-            using (SqlConnection conn = new SqlConnection(connectionBox.Text + "Initial Catalog =" + _tableCatalog))
-            {
-                try
-                {
-                    conn.Open();
-                    SqlCommand cmd = new SqlCommand(query.ToString(), conn);
-                    cmd.Parameters.Add("@binaryValue", SqlDbType.VarBinary, array.Count()).Value = array;
-                    cmd.ExecuteNonQuery();
-                }
-                catch (Exception error)
-                {
-                    MessageBox.Show(error.ToString());
-                }
-                finally { conn.Close(); }
-            }
+            else
+                MessageBox.Show("Не выбрано бинарное поле");
         }
 
         private void tableBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -442,6 +312,7 @@ namespace DBList
                 _tableName = _table;
                 string _catalog = dbListBox.SelectedItem.ToString();
                 FieldsClass.ClearList();
+                condGrid.Items.Refresh();
                 using (SqlConnection conn = new SqlConnection(connectionBox.Text + "Initial Catalog =" + _catalog))
                 {
                     try
@@ -485,10 +356,12 @@ namespace DBList
 
         private void dbListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            textField.Text = "";
             fieldBox.Items.Clear();
             binList.Items.Clear();
             tableBox.Items.Clear();
+            byteData = null;
+            FieldsClass.ClearList();
+            condGrid.Items.Refresh();
             tablesLabel.Visibility = Visibility.Visible;
             tableBox.Visibility = Visibility.Visible;
             ComboBox comboBox = (ComboBox)sender;
@@ -502,10 +375,7 @@ namespace DBList
                     allColumnsSchemaTable = conn.GetSchema("Tables");
                     List<string> tablesList = ShowCols(allColumnsSchemaTable, "TABLE_NAME");
                     foreach (string cur in tablesList)
-                    {
-                        textField.Text += cur + Environment.NewLine;
                         tableBox.Items.Add(cur);
-                    }
                 }
                 catch (Exception error)
                 {
@@ -519,17 +389,20 @@ namespace DBList
         }
 
 
-
         private void extraFields_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //здесь должно открываться окно для редактирования значений
             if (fieldBox.SelectedItem != null)
             {
                 if (!FieldsClass.IsField(fieldBox.SelectedItem.ToString()))
                     FieldsClass.AddValue(fieldBox.SelectedItem.ToString(), "");
                 UpdateWindow a = new UpdateWindow(fieldBox.SelectedItem.ToString());
                 a.Show();
+                a.Closed += A_Closed;//для обновления таблицы
             }
+        }
+        private void A_Closed(object sender, EventArgs e)
+        {
+            condGrid.Items.Refresh();
         }
     }
 }

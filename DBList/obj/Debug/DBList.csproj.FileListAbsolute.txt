@@ -14,3 +14,18 @@ c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug
 c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\UpdateWindow.g.cs
 c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\UpdateWindow.baml
 c:\users\yusupov.v\documents\visual studio 2015\Projects\DBList\DBList\obj\Debug\DBList.csprojResolveAssemblyReference.cache
+C:\Users\halop\Source\Repos\DBList\DBList\bin\Debug\DBList.exe.config
+C:\Users\halop\Source\Repos\DBList\DBList\bin\Debug\DBList.exe
+C:\Users\halop\Source\Repos\DBList\DBList\bin\Debug\DBList.pdb
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\MainWindow.g.cs
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\UpdateWindow.g.cs
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\App.g.cs
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\DBList_MarkupCompile.cache
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\DBList_MarkupCompile.lref
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\MainWindow.baml
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\UpdateWindow.baml
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\DBList.g.resources
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\DBList.Properties.Resources.resources
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\DBList.csproj.GenerateResource.Cache
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\DBList.exe
+C:\Users\halop\Source\Repos\DBList\DBList\obj\Debug\DBList.pdb
